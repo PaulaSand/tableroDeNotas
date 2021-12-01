@@ -14,18 +14,17 @@ class Tablero:
     def __init__(self):
         self.tablero =[]
         self.contadorDeNotasHechas = 0
-        self.nuevaNota = 0
 
     def __str__(self):
         listaDeNotas = ""
         for nota in self.tablero:
-            listaDeNotas = str(nota.idNota)+ "- " + nota.titulo + ": "+ nota.texto
+            listaDeNotas = listaDeNotas + str(nota.idNota)+ "- " + nota.titulo + ": "+ nota.texto + "; "
 
         return listaDeNotas
 
 
     def crearNota(self):
-        tablero1.contadorDeNotasHechas = tablero1.incrementarIdNota() #tablero1.setContadorDeNotas()
+        self.contadorDeNotasHechas = self.incrementarIdNota()
         idNota = self.contadorDeNotasHechas
         titulo = input("Ingrese el tìtulo: ")
         texto = input("Ingrese el texto de la nota: ")
@@ -33,19 +32,21 @@ class Tablero:
         return Nota(idNota, titulo, texto, color)
 
     def incrementarIdNota(self):
-        self.contadorDeNotasHechas = + 1
+        self.contadorDeNotasHechas = self.contadorDeNotasHechas + 1
         return self.contadorDeNotasHechas
 
-    def setContadorDeNotas(self,idNota):
-        self.contadorDeNotasHechas = idNota
+    def setContadorDeNotas(self):
+        self.contadorDeNotasHechas = self.incrementarIdNota()
         return self.contadorDeNotasHechas
 
     def guardarNota(self,nuevaNota):
         self.tablero.append(nuevaNota)
         return self.tablero
 
-    def borrarNota(self,nota):
-        self.tablero.pop(nota.idNota)
+    def borrarNota(self):
+        notaElegida = int( input("¿què nota desea eliminar?: "))
+        notaElegida = notaElegida - 1
+        self.tablero.pop(notaElegida)
         return self.tablero
 
 
@@ -59,7 +60,7 @@ class Nota:
         self.color = color
 
     def __str__(self):
-        return ("Nota: " + str(self.idNota) + "- " + self.titulo + ": " + self.texto)
+        return ("Nota " + str(self.idNota) + ": " + self.titulo + ": " + self.texto)
 
     def modificarTitulo(self,nota):
         self.titulo = input("Ingrese el nuevo titulo: ")
@@ -95,16 +96,43 @@ while not cerrarPrograma:
 
 tablero1 = Tablero()
 
-tablero1.nuevaNota= tablero1.crearNota()
-#tablero1.contadorDeNotasHechas = tablero1.nuevaNota.
-tablero1.tablero = tablero1.guardarNota(tablero1.nuevaNota)
-tablero1.contadorDeNotasHechas =  tablero1.setContadorDeNotas()
-print(tablero1)
-print(tablero1.nuevaNota)
+#---- primera nota ----
+nuevaNota = tablero1.crearNota()
+tablero1.guardarNota(nuevaNota)
+tablero1.contadorDeNotasHechas = nuevaNota.idNota
 
-tablero1.nuevaNota= tablero1.crearNota()
-tablero1.contadorDeNotasHechas =  tablero1.setContadorDeNotas()
-print(tablero1)
-tablero1.guardarNota(tablero1.nuevaNota)
-print(tablero1.nuevaNota)
+print("tablero:",tablero1)
+print("print nota 1",tablero1.tablero[0])
 
+#---- segunda nota ----
+nuevaNota2= tablero1.crearNota()
+tablero1.guardarNota(nuevaNota2)
+tablero1.contadorDeNotasHechas = nuevaNota2.idNota
+
+print("print nota 2",tablero1.tablero[1])
+print("tablero:",tablero1)
+
+#------------------- apurando entrada de notas ---------
+tablero1.contadorDeNotasHechas = tablero1.incrementarIdNota()
+nuevaNota3 = Nota(tablero1.contadorDeNotasHechas,"los tres chanchitos","casas rotas",3)
+tablero1.guardarNota(nuevaNota3)
+
+tablero1.contadorDeNotasHechas = tablero1.incrementarIdNota()
+nuevaNota4 = Nota(tablero1.contadorDeNotasHechas,"caperucita roja","el cuento del tio",5)
+tablero1.guardarNota(nuevaNota4)
+
+tablero1.contadorDeNotasHechas = tablero1.incrementarIdNota()
+nuevaNota5 = Nota(tablero1.contadorDeNotasHechas,"hansel y gretel","historia toxica")
+tablero1.guardarNota(nuevaNota5)
+
+print(tablero1)
+
+#------ Prueba de borrador de notas ------
+tablero1.borrarNota()
+print(tablero1)
+
+#--------- Prueba final de incremento de contador  de notas correcto -----
+tablero1.contadorDeNotasHechas = tablero1.incrementarIdNota()
+nuevaNota6 = Nota(tablero1.contadorDeNotasHechas,"toy story","versión soft de chucky")
+tablero1.guardarNota(nuevaNota6)
+print(tablero1)
