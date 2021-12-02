@@ -8,6 +8,7 @@ NO ES NECESARIO realizar una carga manual o con input de cada nota. La resoluci�
 ADICIONAL: crear un método para poder buscar las notas en base a los distintos filtros es decir: titulo, descripción,
  color, prioridad y devolver el listado que cumpla con esas condiciones. Recomiendo usar o crear una clase Filtro """
 
+from time import ctime
 print("WOW")
 
 class Tablero:
@@ -24,7 +25,7 @@ class Tablero:
 
 
     def crearNota(self):
-        self.contadorDeNotasHechas = self.incrementarIdNota()
+        self.incrementarIdNota()
         idNota = self.contadorDeNotasHechas
         titulo = input("Ingrese el tìtulo: ")
         texto = input("Ingrese el texto de la nota: ")
@@ -33,28 +34,51 @@ class Tablero:
 
     def incrementarIdNota(self):
         self.contadorDeNotasHechas = self.contadorDeNotasHechas + 1
-        return self.contadorDeNotasHechas
 
     def setContadorDeNotas(self):
         self.contadorDeNotasHechas = self.incrementarIdNota()
-        return self.contadorDeNotasHechas
+
 
     def guardarNota(self,nuevaNota):
         self.tablero.append(nuevaNota)
-        return self.tablero
+
 
     def borrarNota(self):
         notaElegida = int( input("¿què nota desea eliminar?: "))
-        notaElegida = notaElegida - 1
-        self.tablero.pop(notaElegida)
-        return self.tablero
+        for nota in self.tablero:
+            if notaElegida == nota.idNota:
+                self.tablero.remove(nota)
 
+
+    def modificarTexto(self):
+        notaElegida = int(input("¿A cual nota desea modificar el texto?: "))
+
+        for nota in self.tablero:
+            if notaElegida == nota.idNota:
+                nota.texto = input("Ingrese el nuevo texto: ")
+            nota.fechaDeUltimaModificacion = ctime()
+
+    def modificarTitulo(self):
+        notaElegida = int(input("¿A cual nota desea modificar el titulo?: "))
+
+        for nota in self.tablero:
+            if notaElegida == nota.idNota:
+                nota.titulo = input("Ingrese el nuevo titulo: ")
+            nota.fechaDeUltimaModificacion = ctime()
+
+    def modificarcolor(self):
+        notaElegida = int(input("¿A cual nota desea modificar el color?: "))
+
+        for nota in self.tablero:
+            if notaElegida == nota.idNota:
+                nota.color = int(input("Ingrese el nuevo color: "))
+            nota.fechaDeUltimaModificacion = ctime()
 
 class Nota:
     def __init__(self, idNota, titulo="Titulo", texto="Escriba su texto aquì", color = 1):
         self.idNota = idNota
-        self.fechaDeCreacion =  1# buscar metodo
-        self.fechaDeUltimaModificacion = 1 # crear mètodo
+        self.fechaDeCreacion = ctime()
+        self.fechaDeUltimaModificacion = ctime()
         self.titulo = titulo
         self.texto = texto
         self.color = color
@@ -64,15 +88,15 @@ class Nota:
 
     def modificarTitulo(self,nota):
         self.titulo = input("Ingrese el nuevo titulo: ")
-        self.fechaDeUltimaModificacion = 1 # metdodo de modificacion
+        self.fechaDeUltimaModificacion = ctime()
         return nota
 
     def leerTitulo(self):
         print(self.titulo)
 
     def modificarTexto(self,nota):
-        self.texto = input("Ingrese el nuevo titulo: ")
-        self.fechaDeUltimaModificacion = 1 # metdodo de modificacion
+        nota.texto = input("Ingrese el nuevo titulo: ")
+        nota.fechaDeUltimaModificacion = ctime()
         return nota
 
     def leerTexto(self):
@@ -113,15 +137,18 @@ print("print nota 2",tablero1.tablero[1])
 print("tablero:",tablero1)
 
 #------------------- apurando entrada de notas ---------
-tablero1.contadorDeNotasHechas = tablero1.incrementarIdNota()
+#tablero1.contadorDeNotasHechas =
+tablero1.incrementarIdNota()
 nuevaNota3 = Nota(tablero1.contadorDeNotasHechas,"los tres chanchitos","casas rotas",3)
 tablero1.guardarNota(nuevaNota3)
 
-tablero1.contadorDeNotasHechas = tablero1.incrementarIdNota()
+#tablero1.contadorDeNotasHechas =
+tablero1.incrementarIdNota()
 nuevaNota4 = Nota(tablero1.contadorDeNotasHechas,"caperucita roja","el cuento del tio",5)
 tablero1.guardarNota(nuevaNota4)
 
-tablero1.contadorDeNotasHechas = tablero1.incrementarIdNota()
+#tablero1.contadorDeNotasHechas =
+tablero1.incrementarIdNota()
 nuevaNota5 = Nota(tablero1.contadorDeNotasHechas,"hansel y gretel","historia toxica")
 tablero1.guardarNota(nuevaNota5)
 
@@ -132,7 +159,15 @@ tablero1.borrarNota()
 print(tablero1)
 
 #--------- Prueba final de incremento de contador  de notas correcto -----
-tablero1.contadorDeNotasHechas = tablero1.incrementarIdNota()
+tablero1.incrementarIdNota()
 nuevaNota6 = Nota(tablero1.contadorDeNotasHechas,"toy story","versión soft de chucky")
 tablero1.guardarNota(nuevaNota6)
+print(tablero1)
+
+print(tablero1.tablero[2].fechaDeCreacion)
+print(tablero1.tablero[2].fechaDeUltimaModificacion)
+tablero1.modificarTexto()
+print(tablero1.tablero[2].fechaDeUltimaModificacion)
+
+tablero1.borrarNota()
 print(tablero1)
